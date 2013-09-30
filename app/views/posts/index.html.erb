@@ -1,0 +1,50 @@
+
+<% if current_user.present? %>
+  <%= render 'form' %>
+  <% else %>
+
+<% end %>
+<ul class="nav nav-tabs">
+  <li class="active"><a href="#recent" data-toggle="tab">Recent Questions</a></li>
+  <% if current_user.present? %>
+  <li><a href="#myposts" data-toggle="tab">My Posts</a></li>
+  <% else %>
+
+  <% end %>
+</ul>
+<div class="tab-content">
+  <div class="tab-pane active" id="recent">
+    <% @recentposts.each do |post| %>
+      <div class="post">
+        <%= post.post %> - <small><%= time_ago_in_words(post.created_at) %></small>
+      </div>
+    <% end %>
+    <%= paginate @recentposts %>
+  </div>
+  <div class="tab-pane" id="myposts">
+    <% if current_user.present?  && @myposts.count >= 1 %>
+      <table>
+        <% @myposts.each do |post| %>
+        <tr>
+          <td><%= post.post %></td>
+          <td>
+          </td>
+          <td><%= link_to 'Edit', edit_post_path(post) %></td>
+          <td><%= link_to 'Show', post_path(post) %></td>
+          <td><%= link_to 'Destroy', post_path(post), method: :delete, data: { confirm: 'Are you sure?' } %>
+          </td>
+        </tr>
+        <% end %>
+      </table>
+    <% else %>
+    <p>You have not yet created any posts. Starting learning more about your pet now by creating your first question below.</p>
+      <%= render 'form' %>
+    <% end %>
+  </div>
+</div>
+
+<script>
+  $(function () {
+    $('#myTab a:last').tab('show');
+  })
+</script>

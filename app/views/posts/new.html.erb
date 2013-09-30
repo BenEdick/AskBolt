@@ -1,0 +1,7 @@
+<% if current_user.present? %>
+  <%= render 'form' %>
+<% else %>
+  <div>
+    <%= link_to 'Sign in to ask a question.', login_path %>
+  </div>
+<% end %>

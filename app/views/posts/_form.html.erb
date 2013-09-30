@@ -1,0 +1,10 @@
+<h3>Ask a Question</h3>
+  <%= form_for @post do |f| %>
+    <div>
+      <%= f.label :Question %>
+      <%= f.text_area :post %>
+    </div>
+
+    <%= f.submit :class => "btn btn-primary" %>
+  <% end %>
+

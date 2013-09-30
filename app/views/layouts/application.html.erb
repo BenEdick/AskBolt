@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>AskBolt</title>
+  <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+  <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+<%= nav_bar :fixed => :top, :brand => "AskBolt", :responsive => true do %>
+    <%= menu_group do %>
+        <%= menu_item "Home", root_path %>
+        <%= menu_divider %>
+        <%= drop_down "Questions" do %>
+            <%= menu_item "Ask a Question", new_post_path %>
+            <%= menu_item "Browse Questions", posts_path %>
+        <% end %>
+        <% if current_user.present? %>
+          <%= menu_item "Profile", edit_user_path(current_user) %>
+        <% end %>
+    <% end %>
+    <%= menu_group :pull => :right do %>
+    <div id="logged-out" >
+        <% if current_user.present? %>
+          <%= menu_item current_user.email + " Log Out", logout_path, method: :destroy %>
+        <% else %>
+          <%= link_to 'Register', new_user_path %>
+         or
+          <%= link_to 'Sign In', login_path %>
+        <% end %>
+    <% end %>
+<% end %>
+</div>
+
+<div class="container">
+  <div style="padding-top:40px;">
+    <%= content_tag(:p, notice, class: 'alert alert-success') if notice %>
+    <%= content_tag(:p, alert, class: 'alert') if alert %>
+  </div>
+    <%= yield %>
+</div>
+</body>
+</html>
